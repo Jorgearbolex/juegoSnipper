@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using NPC.Enemy;
-using NPC.Ally;
+﻿using UnityEngine;
 
 
 public class HeroControl : MonoBehaviour 
@@ -16,20 +12,19 @@ public class HeroControl : MonoBehaviour
     float force = 100;
     GameObject empty;
     GameObject brazos;
-    GameObject bala;
+
     GameObject carga;
-    Vector3 comienzoBala;
+  
     bool canShoot = true;
     bool arrojar;
-    bool mostrarCarga;
+   // bool mostrarCarga;
    
 
     void Start()
     {
         brazos = GameObject.FindGameObjectWithTag("Brazos");
-        comienzoBala = new Vector3(0.393f, 0.3788f, 0.933f); // se define la localposition
-        bala = GameObject.FindGameObjectWithTag("Bala");
-        carga = GameObject.Find("Carga");
+       
+        
 
         GetComponentInChildren<MeshRenderer>().material.color = col;
 
@@ -45,8 +40,7 @@ public class HeroControl : MonoBehaviour
 
         finalMensaje = GameObject.Find("GAME OVER");
         finalMensaje.SetActive(false);
-        mensajeCarga = GameObject.Find("avisoCarga");// esto es para que le mensaje no se muestra desde el principio
-        mensajeCarga.SetActive(false);
+
 
     }
 
@@ -54,7 +48,7 @@ public class HeroControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Shoot();
+         
             canShoot = false;
         }
 
@@ -66,18 +60,14 @@ public class HeroControl : MonoBehaviour
         empty.name = "Camera";
         empty.AddComponent<Camera>();
         empty.AddComponent<FPSim>();
+        empty.tag = "MainCamera";
         empty.transform.SetParent(this.transform);
         empty.transform.localPosition = new Vector3(0f, 1.7f, 0f);
 
 
     }
 
-    void Shoot()
-    {
-        if (canShoot)
-            bala.GetComponent<Rigidbody>().AddForce(Vector3.forward * force);
-            bala.transform.SetParent(null);
-    }
+   
 
     void Update()
     {
@@ -88,24 +78,11 @@ public class HeroControl : MonoBehaviour
     
 
     private void OnCollisionEnter(Collision col)
-    {
-        
+    { 
         if (col.gameObject.name == "podrido")
         {
             finalMensaje.SetActive(true);
             Time.timeScale = 0;
-        }
-
-
-        if (bala.transform.localPosition == comienzoBala)
-        {
-            canShoot = true;
-
-        }
-
-        if (col.gameObject.name == "carga") // esto quedan PENDIENTE para hacer que alm colisionar muestre el aviso de carga
-        {
-            mensajeCarga.SetActive(true);
         }
     }
 }

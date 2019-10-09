@@ -12,6 +12,7 @@ TagManager:
   - Dummie
   - Brazos
   - Bala
+  - Municion
   layers:
   - Default
   - TransparentFX
